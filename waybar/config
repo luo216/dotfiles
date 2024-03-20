@@ -1,0 +1,78 @@
+{
+    "layer": "top",
+    "position": "top", 
+    "height": 36, 
+    "spacing": 6,
+    "modules-left": ["hyprland/workspaces", "hyprland/window"],
+    "modules-center": ["clock"],
+    "modules-right": [ "network", "pulseaudio", "memory", "temperature", "cpu", "battery", "tray" ],
+    "hyprland/workspaces": {
+        "format": "{name}",
+        "on-click": "activate",
+        "on-scroll-up": "hyprctl dispatch workspace e+1",
+        "on-scroll-down": "hyprctl dispatch workspace e-1"
+    },
+    "hyprland/window": {
+        "format": "\uf061 {initialTitle}",
+        "separate-outputs": true
+    },
+    "tray": {
+        "icon-size": 18,
+        "spacing": 3
+    },
+    "clock": {
+        "interval": 1,
+        "format": "\uf017 {:%H:%M:%S}",
+        "format-alt": "\uf133 {:%Y-%m-%d %H:%M:%S}"
+    },
+    "cpu": {
+        "interval": 1,
+        "format": " {usage}%",
+        "tooltip": true
+    },
+    "temperature": {
+        "thermal-zone": 2,
+        "hwmon-path": ["/sys/class/hwmon/hwmon2/temp1_input", "/sys/class/thermal/thermal_zone0/temp"],
+        "critical-threshold": 80,
+        "format-critical": " {temperatureC}°C",
+        "format": " {temperatureC}°C"
+    },
+    "memory": {
+        "interval": 1,
+        "format": "󰆼 {used}G",
+        "tooltip": true,
+        "tooltip-format": "RAM: {used}G / {total}G\nSwap: {swapUsed}G / {swapTotal}G"
+    },
+    "battery": {
+        "bat": "BAT0",
+        "full-at": 95,
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "network": {
+        "interval": 1,
+        "format-wifi": " {essid} ({signalStrength}%)",
+        "format-ethernet": "\uf6ff {ipaddr}/{cidr}",
+        "format-linked": "\uf059 No IP ({ifname})",
+        "format-disconnected": "\uf071 Disconnected",
+        "tooltip-format": "{ifname} {ipaddr}/{cidr} via {gwaddr}",
+        "format-alt": " {ifname}: {ipaddr}/{cidr}"
+    },
+    "pulseaudio": {
+        "scroll-step": 0.1,
+        "format": "{icon} {volume}%",
+        "format-muted": "\uf6a9",
+        "format-bluetooth": "{icon}\uf294 {volume}%",
+        "format-bluetooth-muted": "\ufa69 {icon}\uf294",
+        "format-icons": {
+            "default": ["\uf026", "\uf027", "\uf028"]
+        },
+        "on-click-right": "pavucontrol",
+        "ignored-sinks": ["AudioRelay Virtual Sink", "Recorder Sink"]
+    }
+}
