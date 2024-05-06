@@ -22,7 +22,8 @@ pasystray &
 fcitx5 &
 
 # polkit password agent
-rofi-polkit-agent &
+# rofi-polkit-agent &
+/usr/lib/xfce-polkit/xfce-polkit &
 setxkbmap -option "caps:super"
 
 sleep 2
