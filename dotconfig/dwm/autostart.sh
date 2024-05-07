@@ -1,10 +1,10 @@
 #!/bin/sh
 
-# xrandr --output HDMI-1 --auto --below eDP-1
+xrandr --output HDMI-1 --auto --below eDP-1
 xrandr --output HDMI-1 --brightness 0.8
 xrandr --output HDMI-1-1 --brightness 0.8
-# xrandr --output HDMI-1 --scale 0.8x0.8
-# xinput map-to-output 14 "HDMI-1"
+xrandr --output HDMI-1 --scale 0.8x0.8
+xinput map-to-output 14 "HDMI-1"
 
 # background
 picom &
@@ -32,3 +32,4 @@ sleep 2
 st -e sh -c "neofetch && echo -e 'If you need to update the system\nplease enter the password\nthis will execute the {Paru -Syu} instruction' && paru -Syu && zsh"
 # nvidia
 optimus-manager-qt &
+setxkbmap -option "caps:super"
