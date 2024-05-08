@@ -4,7 +4,7 @@ xrandr --output HDMI-1 --auto --below eDP-1
 xrandr --output HDMI-1 --brightness 0.8
 xrandr --output HDMI-1-1 --brightness 0.8
 xrandr --output HDMI-1 --scale 0.8x0.8
-xinput map-to-output 14 "HDMI-1"
+xinput map-to-output 13 "HDMI-1"
 
 # background
 picom &
