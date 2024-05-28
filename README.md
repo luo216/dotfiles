@@ -6,6 +6,7 @@
 * [开始安装](#开始安装)
   * [paru（aur helper）](#paruaur-helper)
   * [快速搭建gui](#快速搭建gui)
+* [sunshine](#sunshine)
 
 <!-- vim-markdown-toc -->
 
@@ -75,4 +76,13 @@ paru -S flameshot kitty ueberzugpp feh rofi lemonade-bin picom-simpleanims-next-
 ```shell
 paru -S arandr dunst zsh oh-my-zsh zsh-autosuggestions zsh-syntax-highlighting
 chsh -s /bin/zsh
+```
+
+## sunshine
+
+[arch linux安装sunshine实现串流](https://dev.leiyanhui.com/arch/moonlight-sunshine-install/) 
+
+> 在此基础上还需要开启Avahi服务
+```shell
+sudo systemctl enable --now avahi-daemon
 ```
