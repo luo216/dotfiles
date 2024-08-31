@@ -1,0 +1,132 @@
+* {
+    /* `otf-font-awesome` is required to be installed for icons */
+    font-family: "Hack Nerd font";
+    font-weight: 500;
+    font-size: 16px;
+
+    border-radius: 13px;
+    text-shadow: none;
+    
+    transition-property: background;
+    transition-duration: 0.2s;
+}
+
+window#waybar {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+#workspaces {
+	margin-top: 6px;
+	background: rgba(16, 20, 24, 0.5);
+	transition: none;
+
+    font-size: 12px;
+}
+
+#workspaces button {
+    margin: 3px;
+    border: none;
+    padding: 0 6px;
+    background: transparent;
+    color: #ffffff;
+}
+
+#workspaces button:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+#workspaces button.active {
+    background: #fff9bb;
+    color: #000000;
+}
+
+#workspaces button.active:hover {
+    background: #fffcdf;
+}
+
+#workspaces button.urgent {
+    background-color: #eb4d4b;
+}
+
+#mode {
+    background-color: #64727D;
+    border-bottom: 3px solid #ffffff;
+}
+
+#workspaces,
+#temperature,
+#battery,
+#clock,
+#cpu,
+#memory,
+#network,
+#pulseaudio,
+#tray,
+#mode,
+#window {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding: 0 8px;
+    color: #ffffff;
+}
+
+/* If workspaces is the leftmost module, omit left margin */
+.modules-left > widget:first-child > * {
+    margin-left: 16px;
+}
+
+/* If workspaces is the rightmost module, omit right margin */
+.modules-right > widget:last-child > * {
+    margin-right: 16px;
+}
+
+#clock {
+    background-color: #eefff1;
+    color: #000000;
+}
+
+#cpu {
+    background-color: #FE968B;
+    color: #000000;
+}
+
+#memory {
+    background-color: #FFEAAA;
+    color: #000000;
+}
+
+#pulseaudio {
+    background-color: #b0f5e5;
+    color: #000000;
+}
+
+#network {
+    background-color: #87ddff;
+    color: #000000;
+}
+
+#battery {
+    background-color: #cbecff;
+    color: #000000;
+}
+
+#temperature {
+    background-color: #87ddff;
+    color: #000000;
+}
+
+#tray {
+    background-color: rgba(16, 20, 24, 0.5);
+    color: #000000;
+}
+
+#window {
+    font-family: 'IntelOne Mono', 'Noto Sans CJK SC', sans-serif;
+    font-weight: 400;
+    background-color: #cbecff;
+    color: #000000;
+}
