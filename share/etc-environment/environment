@@ -1,0 +1,18 @@
+#
+# This file is parsed by pam_env module
+#
+# Syntax: simple "KEY=VAL" pairs on separate lines
+#
+GTK_IM_MODULE=fcitx
+QT_IM_MODULE=fcitx
+XMODIFIERS=@im=fcitx
+INPUT_METHOD=fcitx
+SDL_IM_MODULE=fcitx
+GLFW_IM_MODULE=ibus
+VISUAL=nvim
+EDITOR=nvim
+no_proxy="localhost,127.0.0.1,zhihu.com,buuoj.cn,baidu.com"
+QT_QPA_PLATFORMTHEME=qt5ct
+QT_STYLE_OVERRIDE=kvantum
+WEBKIT_DISABLE_DMABUF_RENDERER=1
+LANG=zh_CN.UTF-8

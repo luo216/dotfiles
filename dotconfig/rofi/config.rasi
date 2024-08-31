@@ -1,0 +1,23 @@
+configuration {
+  modes: [ combi, window, ssh, filebrowser ];
+  combi-modes: [ drun, run ];
+}
+
+@theme "./rofi-themes/macos/rounded-blue-dark.rasi"
+ 
+/* Insert theme modifications after this */
+
+
+element {
+  orientation: horizontal;
+  children: [ element-text, element-icon ];
+  spacing: 5px;
+}
+
+configuration {
+  font: "Hack Nerd Font 16";
+}
+
+* {
+  border-radius: 10px;
+}
