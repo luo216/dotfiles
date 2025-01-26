@@ -127,7 +127,7 @@ VI_MODE_SET_CURSOR=true
 bindkey -M viins 'kj' vi-cmd-mode
 KEYTIMEOUT=25
 # 设置ctrl-space补全
-bindkey '^j' autosuggest-accept
+bindkey '^n' autosuggest-accept
 
 # 设置yazi退出留在当前目录
 function ya() {

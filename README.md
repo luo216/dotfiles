@@ -2,6 +2,7 @@
 
 <!-- vim-markdown-toc GFM -->
 
+* [安装日记](#安装日记)
 * [前期准备](#前期准备)
 * [系统安装](#系统安装)
 * [基础环境搭建](#基础环境搭建)
@@ -19,9 +20,15 @@
 * [启用Swap](#启用swap)
   * [持久化](#持久化)
 * [休眠hibernate设置](#休眠hibernate设置)
+* [添加path](#添加path)
+* [生成英文目录](#生成英文目录)
 * [软件推荐及安装配置](#软件推荐及安装配置)
 
 <!-- vim-markdown-toc -->
+
+## 安装日记
+
+- [pixelbook go 安装日记](./Pixelbook.md)
 
 ## 前期准备
 
@@ -118,7 +125,7 @@ makepkg -si
 - 安装一些小工具
 ```shell
 paru -S neovim lazygit yazi lemonade-bin
-paru -S ripgrep fd # yazi相关的小依赖，本身也是非常好用的命令行工具
+paru -S ripgrep fd fzf # yazi相关的小依赖，本身也是非常好用的命令行工具
 ```
 
 - 下载配置文件
@@ -132,8 +139,8 @@ git clone https://github.com/luo216/dotfiles
 - 剪切板
 ```shell
 paru -S xclip
-sudo cp ~/Data/dotfiles/dotconfig/rofi/rofi /usr/local/bin
 ```
+> rofi 如果需要使用中文：`sudo cp ~/Data/dotfiles/dotconfig/rofi/rofi /usr/local/bin`
 
 - 设置zsh
 ```shell
@@ -157,9 +164,9 @@ sudo nvim /etc/paru.conf
 
 ## 安装图形化界面
 
-- 安装 dwm st surf dmenu
+- 安装 dwm wezterm google-chrome-stable rofi
 ```shell
-paru -S dwm st surf dmenu tabbed slock feh
+paru -S dwm wezterm google-chrome-stable rofi
 ```
 
 - 安装 display manager
@@ -173,30 +180,18 @@ sudo systemctl enable lightdm --now
 ```shell
 cd ~/Software
 git clone https://github.com/luo216/dwm
-git clone https://github.com/luo216/st
-git clone https://github.com/luo216/surf
-git clone https://github.com/luo216/slock
-git clone https://github.com/luo216/tabbed
 ```
 - 稍作配置然后编译
 > dwm 中的 config.h 设置自己喜欢的快捷键，设置网卡名字，设置温度监控设备的数量
 ```shell
 cd ~/Software/dwm
 sudo make clean install
-cd ~/Software/st
-sudo make clean install
-cd ~/Software/surf
-sudo make clean install
-cd ~/Software/slock
-sudo make clean install
-cd ~/Software/tabbed
-sudo make clean install
 ```
 > 把dotconfig的选择放出来一部分
 
 - 补全一些小组件
 ```shell
-paru -S picom ueberzugpp jq conky rofi dunst libnotify
+paru -S picom ueberzugpp jq conky dunst libnotify
 # fonts
 paru -S  wqy-zenhei ttf-hack-nerd ttf-nerd-fonts-symbols ttf-wps-fonts
 ```
@@ -208,6 +203,7 @@ sudo nvim /etc/locale.gen
 > 将zh_CN.UTF-8 前的#去掉
 ```shell
 sudo locale-gen
+sudo localectl set-locale LANG=zh_CN.UTF-8
 ```
 
 - 环境变量设置
@@ -230,7 +226,7 @@ sudo systemctl enable tlp --now
 
 - 系统托盘程序
 ```shell
-paru -S light xfce-polkit-git blueman bluez-utils pasystray network-manager-applet arandr pcmanfm udisks2 udiskie
+paru -S light xfce-polkit-git blueman bluez-utils pasystray network-manager-applet arandr thunar udisks2 udiskie
 
 sudo systemctl enable bluetooth --now
 sudo systemctl enable udisks2 --now
@@ -267,13 +263,13 @@ sudo ln -s ~/.config/conky/Nashira-Light/start.sh /usr/local/bin/myconky
 
 - gtk and qt
 ```shell
-paru -S qt5ct kvantum lxappearance whitesur-gtk-theme papirus-icon-theme
+paru -S qt5ct kvantum lxappearance whitesur-gtk-theme kvantum-theme-whitesur-git papirus-icon-theme
 ```
 > lxappearance 设置gtk主题whitesur-dark,图标主题设置papirus-dark
 
 > qt5ct 设置图标主题papirus-dark
 
-> kvantum 设置qt主题: 点击变更/删除主题 -> 选择KuMojave -> 应用此主题 -> 点击配置当前主题(去掉一些特效,记得保存)
+> kvantum 设置qt主题: 点击变更/删除主题 -> 选择whitesur-dark -> 应用此主题 -> 点击配置当前主题(去掉一些特效,记得保存)
 
 - 每个人都不一样的配置
 > 设置config中的dwm/autostart.sh(里面设置分辨率，显示器位置...)
@@ -372,6 +368,22 @@ UUID=UUID-of-swap-partition   none    swap    sw,pri=1  0 0
 sudo vim /etc/mkinitcpio.conf
 ```
 > 添加 resume 类似：HOOKS=(base udev autodetect keyboard microcode modconf kms keyboard keymap consolefont block filesystems resume fsck)
+
+## 添加path
+
+- 持久化
+> 自己去里面添加path
+```shell
+sudo vim /etc/profile
+```
+
+## 生成英文目录
+
+- 先下载 `xdg-user-dirs-update` 
+```shell
+export LANG=en_US
+xdg-user-dirs-update
+```
 
 ## 软件推荐及安装配置
 

@@ -15,4 +15,3 @@ no_proxy="localhost,127.0.0.1,zhihu.com,buuoj.cn,baidu.com"
 QT_QPA_PLATFORMTHEME=qt5ct
 QT_STYLE_OVERRIDE=kvantum
 WEBKIT_DISABLE_DMABUF_RENDERER=1
-LANG=zh_CN.UTF-8

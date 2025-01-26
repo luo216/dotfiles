@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+<action>
+	<icon>org.wezfurlong.wezterm</icon>
+	<name>在此打开终端</name>
+	<submenu></submenu>
+	<unique-id>1722610574183310-1</unique-id>
+	<command>/usr/bin/wezterm start --cwd %f</command>
+	<description>自定义动作示例</description>
+	<range></range>
+	<patterns>*</patterns>
+	<startup-notify/>
+	<directories/>
+</action>
+</actions>

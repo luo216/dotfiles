@@ -1,3 +1,9 @@
+-- every spec file under the "plugins" directory will be loaded automatically by lazy.nvim
+--
+-- In your plugin files, you can:
+-- * add extra plugins
+-- * disable/enabled LazyVim plugins
+-- * override the configuration of LazyVim plugins
 return {
 	-- add gruvbox
 	{ "ellisonleao/gruvbox.nvim" },
@@ -18,16 +24,16 @@ return {
 			-- disabled by setting codeium's default keymap
 			vim.g.codeium_disable_bindings = 1
 			-- change codeium's default keymap
-			vim.keymap.set("i", "<C-j>", function()
+			vim.keymap.set("i", "<C-n>", function()
 				return vim.fn["codeium#Accept"]()
 			end, { expr = true })
-			vim.keymap.set("i", "<C-l>", function()
+			vim.keymap.set("i", "<C-j>", function()
 				return vim.fn["codeium#CycleCompletions"](1)
 			end, { expr = true })
 			vim.keymap.set("i", "<C-h>", function()
 				return vim.fn["codeium#CycleCompletions"](-1)
 			end, { expr = true })
-			vim.keymap.set("i", "<C-c>", function()
+			vim.keymap.set("i", "<C-l>", function()
 				return vim.fn["codeium#Clear"]()
 			end, { expr = true })
 		end,
@@ -90,7 +96,7 @@ return {
 			vim.cmd([[
         let g:VM_maps = {}
         let g:VM_maps["Add Cursor Down"] = '<C-u>'
-        let g:VM_maps["Add Cursor Up"] = ''
+        let g:VM_maps["Add Cursor Up"] = 'C-U'
       ]])
 		end,
 	},
@@ -114,9 +120,6 @@ return {
 		-- opts will be merged with the parent spec
 		opts = { use_diagnostic_signs = true },
 	},
-
-	-- disable trouble
-	{ "folke/trouble.nvim", enabled = true },
 
 	-- add symbols-outline
 	{
@@ -164,28 +167,64 @@ return {
 		},
 	},
 
+	-- override nvim-cmp and add cmp-emoji
+	{
+		"hrsh7th/nvim-cmp",
+		dependencies = { "hrsh7th/cmp-emoji" },
+		---@param opts cmp.ConfigSchema
+		opts = function(_, opts)
+			table.insert(opts.sources, { name = "emoji" })
+		end,
+	},
+
+	-- change some telescope options and a keymap to browse plugin files
+	{
+		"nvim-telescope/telescope.nvim",
+		keys = {
+      -- add a keymap to browse plugin files
+      -- stylua: ignore
+      {
+        "<leader>fp",
+        function() require("telescope.builtin").find_files({ cwd = require("lazy.core.config").options.root }) end,
+        desc = "Find Plugin File",
+      },
+		},
+		-- change some options
+		opts = {
+			defaults = {
+				layout_strategy = "horizontal",
+				layout_config = { prompt_position = "top" },
+				sorting_strategy = "ascending",
+				winblend = 0,
+			},
+		},
+	},
+
+	-- add more treesitter parsers
 	{
 		"nvim-treesitter/nvim-treesitter",
-		opts = function(_, opts)
-			-- add tsx and treesitter
-			vim.list_extend(opts.ensure_installed, {
-				"php",
-				"go",
-				"c",
-				"rust",
+		opts = {
+			ensure_installed = {
+				"bash",
+				"html",
 				"javascript",
-			})
-		end,
+				"json",
+				"lua",
+				"markdown",
+				"markdown_inline",
+				"python",
+				"query",
+				"regex",
+				"tsx",
+				"typescript",
+				"vim",
+				"yaml",
+			},
+		},
 	},
 
 	-- topbar
 	{ "Bekaboo/dropbar.nvim" },
-
-	{
-		"Saecki/crates.nvim",
-		event = { "BufRead Cargo.toml" },
-		config = true,
-	},
 
 	-- the opts function can also be used to change the default opts:
 	{
@@ -237,69 +276,68 @@ return {
 		end,
 	},
 
-	-- add any tools you want to have installed below
+	-- blink-cmp
 	{
-		"williamboman/mason.nvim",
+		"saghen/blink.cmp",
+		dependencies = "rafamadriz/friendly-snippets",
+		version = "*",
+		---@module 'blink.cmp'
+		---@type blink.cmp.Config
 		opts = {
-			ensure_installed = {
-				"stylua",
-				"shellcheck",
-				"shfmt",
-				"flake8",
+			keymap = {
+				preset = "none",
+				["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+				-- ['<C-e>'] = { 'hide' },
+				-- fallback命令将运行下一个非闪烁键盘映射(回车键的默认换行等操作需要)
+				["<CR>"] = { "accept", "fallback" }, -- 更改成'select_and_accept'会选择第一项插入
+				["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+				["<Tab>"] = { "select_next", "snippet_forward", "fallback" }, -- 同时存在补全列表和snippet时，补全列表选择优先级更高
+
+				["<C-b>"] = { "scroll_documentation_up", "fallback" },
+				["<C-f>"] = { "scroll_documentation_down", "fallback" },
+
+				["<C-e>"] = { "snippet_forward", "select_next", "fallback" }, -- 同时存在补全列表和snippet时，snippet跳转优先级更高
+				["<C-u>"] = { "snippet_backward", "select_prev", "fallback" },
+			},
+			completion = {
+				-- 示例：使用'prefix'对于'foo_|_bar'单词将匹配'foo_'(光标前面的部分),使用'full'将匹配'foo__bar'(整个单词)
+				keyword = { range = "full" },
+				-- 选择补全项目时显示文档(0.5秒延迟)
+				documentation = { auto_show = true, auto_show_delay_ms = 500 },
+				-- 不预选第一个项目，选中后自动插入该项目文本
+				list = { selection = { preselect = false, auto_insert = true } },
+			},
+			-- 指定文件类型启用/禁用
+			enabled = function()
+				return not vim.tbl_contains({
+					-- "lua",
+					-- "markdown"
+				}, vim.bo.filetype) and vim.bo.buftype ~= "prompt" and vim.b.completion ~= false
+			end,
+
+			appearance = {
+				-- 将后备高亮组设置为 nvim-cmp 的高亮组
+				-- 当您的主题不支持blink.cmp 时很有用
+				-- 将在未来版本中删除
+				use_nvim_cmp_as_default = true,
+				-- 将“Nerd Font Mono”设置为“mono”，将“Nerd Font”设置为“normal”
+				-- 调整间距以确保图标对齐
+				nerd_font_variant = "mono",
+			},
+
+			-- 已定义启用的提供程序的默认列表，以便您可以扩展它
+			sources = {
+				default = { "buffer", "lsp", "path", "snippets" },
+				providers = {
+					-- score_offset设置优先级数字越大优先级越高
+					buffer = { score_offset = 4 },
+					path = { score_offset = 3 },
+					lsp = { score_offset = 2 },
+					snippets = { score_offset = 1 },
+				},
 			},
 		},
-	},
-
-	-- Use <tab> for completion and snippets (supertab)
-	-- first: disable default <tab> and <s-tab> behavior in LuaSnip
-	{
-		"L3MON4D3/LuaSnip",
-		keys = function()
-			return {}
-		end,
-	},
-	-- then: setup supertab in cmp
-	{
-		"hrsh7th/nvim-cmp",
-		dependencies = {
-			"hrsh7th/cmp-emoji",
-		},
-		---@param opts cmp.ConfigSchema
-		opts = function(_, opts)
-			local has_words_before = function()
-				unpack = unpack or table.unpack
-				local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-				return col ~= 0
-					and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-			end
-
-			local luasnip = require("luasnip")
-			local cmp = require("cmp")
-
-			opts.mapping = vim.tbl_extend("force", opts.mapping, {
-				["<Tab>"] = cmp.mapping(function(fallback)
-					if cmp.visible() then
-						cmp.select_next_item()
-					-- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-					-- this way you will only jump inside the snippet region
-					elseif luasnip.expand_or_jumpable() then
-						luasnip.expand_or_jump()
-					elseif has_words_before() then
-						cmp.complete()
-					else
-						fallback()
-					end
-				end, { "i", "s" }),
-				["<S-Tab>"] = cmp.mapping(function(fallback)
-					if cmp.visible() then
-						cmp.select_prev_item()
-					elseif luasnip.jumpable(-1) then
-						luasnip.jump(-1)
-					else
-						fallback()
-					end
-				end, { "i", "s" }),
-			})
-		end,
+		-- 由于“opts_extend”，您的配置中的其他位置无需重新定义它
+		opts_extend = { "sources.default" },
 	},
 }

@@ -1,6 +1,7 @@
 #!/bin/sh
 
-TOUCHMAPID=13
+TOUCHMAPID=10
+MOUSE='pointer:CX UGREEN Slim Mouse'
 
 MODE=$(optimus-manager --print-mode | awk '{print$NF}')
 HDMI=HDMI-1
@@ -11,14 +12,18 @@ if [ "$MODE" != "integrated" ]; then
   DP=eDP-1-1
 fi
 
-/usr/local/bin/wol.sh &
-xrandr --output $DP --mode 1920x1080 --pos 0x0
-xrandr --output $HDMI --mode 1920x1080 --pos 2304x0
-xrandr --output $HDMI --brightness 0.8
-xrandr --output $HDMI --scale 1.2x1.2
-xrandr --output $DP --scale 1.2x1.2
+wol.sh &
+# xrandr --output $DP --mode 1920x1080 --pos 0x0
+xrandr --output $DP --off
+xrandr --output $HDMI --mode 2160x1440 --pos 0x-1440
+# xrandr --output $HDMI --brightness 0.6
+# xrandr --output $HDMI --scale 1.2x1.2
+# xrandr --output $DP --scale 1.2x1.2
 xrandr --output $HDMI --primary
 xinput map-to-output $TOUCHMAPID "$HDMI"
+xinput --set-prop "$MOUSE" 'libinput Accel Speed' -0.9
+# xinput --set-prop "$MOUSE" 'Coordinate Transformation Matrix' 0.6 0 0 0 0.6 0 0 0 2
+# ~/.screenlayout/layout.sh
 
 # background
 picom &
@@ -40,16 +45,16 @@ fcitx5 &
 # polkit password agent
 /usr/lib/xfce-polkit/xfce-polkit &
 # keymap
-/usr/local/bin/caps2super.sh &
+caps2super.sh &
 # xautolock -time 10 -locker 'Xsleep 20' &
 
 sleep 2
 # sunshine
 kdeconnect-indicator &
-/usr/bin/rQuickShare &
+# /usr/bin/rQuickShare &
 sunshine &
 
-# exit or paru -Syu
-st -e sh -c "fastfetch && echo -e 'If you need to update the system\nplease enter the password\nthis will execute the {Paru -Syu} instruction' && paru -Syu && setxkbmap -option 'caps:super' && zsh"
+wezterm
+
 # keymap
-/usr/local/bin/caps2super.sh &
+caps2super.sh &
