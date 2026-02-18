@@ -304,11 +304,13 @@ sudo vim /etc/lightdm/lightdm.conf
 # 设置：autologin-user=steve
 ```
 
-### 配置电源按键防误触
+### 配置电源按键防误触和盒盖不休眠
 
 ```bash
 sudo vim /etc/systemd/logind.conf
-# 设置：HandlePowerKey=ignore
+# 取消注释并设置：
+HandlePowerKey=ignore
+HandleLidSwitch=ignore
 ```
 
 ### 添加用户到 video 组（亮度控制）
@@ -328,6 +330,7 @@ options hid_apple swap_fn_leftctrl=1
 ```
 
 > **说明**：
+>
 > - `fnmode=2` Fn 键作为功能键
 > - `swap_opt_cmd=1` 交换 Option 和 Command 键
 > - `swap_fn_leftctrl=1` 交换 Fn 和左 Ctrl 键
@@ -427,7 +430,7 @@ git clone https://github.com/LazyVim/starter ~/.config/nvim
 ### 安装系统字体
 
 ```bash
-paru -S wqy-microhei
+paru -S ttf-hack-nerd wqy-zenhei wqy-microhei
 ```
 
 > **说明**：避免部分软件无法读取 nix 安装的字体
@@ -435,5 +438,14 @@ paru -S wqy-microhei
 ### 复制配置文件
 
 将 `config` 目录中的 dwm 配置复制到相应位置即可。
+
+---
+
+## 十一、常用软件推荐
+
+### VPN
+
+- **sparkle-bin** - 科学上网工具，AUR 可直接安装：`paru -S sparkle-bin`
+- **sunshine-beta-bin** - 开源游戏串流工具（Steam Link 替代品），AUR 安装：`paru -S sunshine-beta-bin`
 
 ---

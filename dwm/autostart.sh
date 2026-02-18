@@ -35,3 +35,4 @@ caps2super.sh &
 
 # background
 feh --bg-fill ~/.local/share/wallpaper/default.png
+sunshine &
