@@ -195,6 +195,37 @@ return {
     },
   },
 
+  -- markdown paste image
+  {
+    "HakonHarnes/img-clip.nvim",
+    event = "VeryLazy",
+    opts = {
+      default = {
+        embed_image_as_base64 = false,
+        prompt_for_file_name = false,
+        drag_and_drop = {
+          insert_mode = true,
+        },
+      },
+      filetypes = {
+        markdown = {
+          url_encode_path = true,
+          template = "![$CURSOR]($FILE_PATH)",
+        },
+      },
+    },
+    keys = {
+      {
+        "<leader>mp",
+        function()
+          require("img-clip").paste_image()
+        end,
+        desc = "Paste Image",
+        ft = "markdown",
+      },
+    },
+  },
+
   -- add color show
   {
     "norcalli/nvim-colorizer.lua",
